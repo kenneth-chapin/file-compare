@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <title>File Compare</title>
+    <meta name="author" content="CKen Chapin">
+    <meta name="description" content="Find duplicate files based on their
+        content, not necessarily their name. Recursively traverse directories
+        to locate files.">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="keywords" content="python, flask, threads, thread pool, recursion">
+    <style>
+        table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        padding: 2px;
+    }
+    </style>
+    <STYLE TYPE="text/css" MEDIA="screen, projection">
+        @import url(https://htmlhelp.com/style.css);
+        DT { background: yellow; color: black }
+    </STYLE>
+</head>
+
+<body>
+<h1 style="text-align:center;">Choose starting directory</h1><br>
+<div>
+<form action="/start" method="POST">
+    <label for="start">Starting directory: </label>
+    <input type="text" id="start" name="start">
+    <label for="ext">file extension: </label>
+    <input type="text" id="ext" name="ext">
+    <label for="dupes">Show duplicates only: </label>
+    <input type="checkbox" id="dupes" name="dupes" value="True">
+    <input type="submit" value="start">
+</form>
+</div>
+<br><br>
+<div>
+<table style="margin: 0 auto;">
+{% if dupes != True %}
+    <caption>Duplicates in <span style="color:red">red</span></caption>
+{% else %}
+    <caption>Duplicates only</caption>
+{% endif %}
+<tr>
+    <th>file name</th>
+    <th>size in bytes</th>
+</tr>
+{% for item in data %}
+<tr>
+    {% if item.size > 0 %}
+        {% if loop.index0 > 0 and item.sum == data[loop.index0-1].sum %}
+            <td style="color:red;">{{item.name}}</td>
+        {% else %}
+            <td style="color:blue;">{{item.name}}</td>
+        {% endif %}
+       <td>{{item.size}}</td>
+    {% endif %}
+</tr>
+{% endfor %}
+<tr>
+    <td colspan="2">number of files: {{data|length}}</td>
+</tr>
+</table>
+</div>
+</body>
+</html>
