@@ -48,16 +48,16 @@
     <th>size in bytes</th>
 </tr>
 {% for item in data %}
-<tr>
+    <tr>
     {% if item.size > 0 %}
-        {% if loop.index0 > 0 and item.sum == data[loop.index0-1].sum %}
+        {% if loop.index0 > 0 and item.sum != 0 and item.sum == data[loop.index0-1].sum %}
             <td style="color:red;">{{item.name}}</td>
         {% else %}
             <td style="color:blue;">{{item.name}}</td>
         {% endif %}
        <td>{{item.size}}</td>
     {% endif %}
-</tr>
+    </tr>
 {% endfor %}
 <tr>
     <td colspan="2">number of files: {{data|length}}</td>

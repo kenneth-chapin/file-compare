@@ -2,7 +2,7 @@ import os
 from flask import Flask, render_template, request
 from werkzeug.exceptions import BadRequestKeyError
 from werkzeug.utils import redirect
-from dumplicates import get_file_infos, show_finfos
+from dumplicates import get_file_infos, show_dupes
 
 app = Flask(__name__)
 app.config["DEBUG"] = True
@@ -31,7 +31,7 @@ def home():
             finfos = get_file_infos(dir, ext)
             dupes = bool(get_form_val('dupes'))
             if dupes:
-                finfos = show_finfos(finfos)
+                finfos = show_dupes(finfos)
             return render_template('index.html', data=finfos, dupes=dupes)
         else:
             print('{} is not a valid directory'.format(dir))
